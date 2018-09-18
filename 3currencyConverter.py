@@ -44,7 +44,7 @@ print(str(x))
 print(random.randrange(50, 101, 10))
 """
 import math
-
+***
 a = math.pow(math.sin(random.random(0, 2*pi), 2) + math.pow(math.cos(, 2)
 print(a)
 
