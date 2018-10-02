@@ -13,13 +13,12 @@ print (i)
 
 
 
-
 i = [0]*10
 print(i)
 
 
 i = []
 for x in range(10):
-	k = [0]*10
+	k = [0]*1
 
 for 
