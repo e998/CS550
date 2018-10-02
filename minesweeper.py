@@ -63,14 +63,14 @@ for i in range(1,h-1):
 
 
 
-"""
+""" first bomb attempt
 if a>=0 and a<=w and b>=0 and b<=h:
 	print ("*")
 """
 
 
 
-"""
+""" if-statement notes
 if board[x-1][y] is not "*":
 	board[x-1][y] += 1
 	board[x-1][y-1] += 1
