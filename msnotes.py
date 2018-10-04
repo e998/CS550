@@ -14,6 +14,4 @@
 - random placement bombs
 - if-statement checks for bombs
 
-
-
 """
