@@ -59,6 +59,24 @@ def msGame():
 					if board[a+j][b+i] != "*":
 						board[a+j][b+i] += 1
 
+
+	# to ensure gutter values are not equal to 0
+
+	# first row of board in gutter, all terms equal to 1 (times the width)
+	# brackets around 1 only necessary because done for multiple terms (*w)
+	board[0] = [1]*w
+	# last row of board in gutter, all terms equal to 1 (times the width)
+	board[-1] = [1]*w
+
+	# loop to change values of first gutter column and last gutter column to 1
+	# i is row number in board
+	# terms of 1D list i is term in row
+	for i in board:
+		i[0] = 1
+		i[-1] = 1
+
+
+
 	while (isPlaying): 
 		user = input("\nSelect position x,y: ")
 		position = user.split(",")
@@ -75,6 +93,37 @@ def msGame():
 			if board[int(position[1])][int(position[0])] == 0:
 	
 				zero = True
+
+
+				"""
+				- while loop, pulling elements out of the zeroes list, list of coordinates
+
+				tuples - 2D list [[1,2],[3,7],[2,8]]
+				"""
+
+				# list of zeroes
+				# z is a 2D list!
+				z = []
+				z.append([ int(position[1]) , int(position[0]) ])
+
+
+				while len(z) > 0:
+					# deleting and returning FIRST term of zeroes list!
+					pos = z.pop(0)
+					for i in range(-1,2):
+						for j in range (-1,2):
+							# if the term is equal to zero and it has not been revealed before
+							print(initBoard[pos[0]+i][pos[1]+j])
+							if board[pos[0]+i][pos[1]+j] == 0 and initBoard[pos[0]+i][pos[1]+j] == 'X':
+								z.append([pos[0]+i , pos[1]+j])
+
+							initBoard[pos[0]+i][pos[1]+j] = board[pos[0]+i][pos[1]+j]
+
+
+
+
+
+				"""
 				# down
 				d = int(position[1])
 				while d <= h-1: 
@@ -110,7 +159,7 @@ def msGame():
 						ri += 1
 					else:
 						break
-
+				"""
 
 		for i in range(1,len(board)-1):
 			# len(board[0])-1 is width
