@@ -16,32 +16,49 @@ h = None
 B = None
 initBoard = None
 
-def startGame():
+
+def endGame():
+	print("\nSorry, you lost! Play again!\n")
+
+
+"""
+def win():
+	if the number of unrevealed tiles + number of flags = number of bombs
+"""
+
+
+def flag():	
+	position.pop(0)
+	x = position[1]
+	y = position[0]
+	initBoard[int(x)][int(y)] = "F"
+	# if user == "F" + str(flagx) + str(flagy):
+	print(initBoard[int(x)][int(y)])
+
+
+def msGame():
+	# startGame()
 	global w,h,B,initBoard
 
-	print("\n\n\n#################\n" +
+	print("\n\n\n\n#################\n" +
 		"Play Minesweeper!\n" +
 		"#################\n")
 
-	# set dimensions for board
+	######## set dimensions for board
 	w = int(sys.argv[1]) + 2
 	h = int(sys.argv[2]) + 2
 	B = int(sys.argv[3])
 
 	initBoard = [['X']*w for b in range(h)]
+
 	# print userboard
 	for i in range(1,h-1):
 		for j in range(1,w-1):
 			# board[i][j]
 			print(initBoard[i][j], end=" ")
 		sys.stdout.write("\n")
+	########
 
-
-def endGame():
-	print("Sorry, you lost!")
-
-
-def msGame():
 	isPlaying = True
 
 	# initial number of adjacent bombs set equal to 0
@@ -76,35 +93,36 @@ def msGame():
 		i[-1] = 1
 
 
-
 	while (isPlaying): 
-		user = input("\nSelect position x,y: ")
-		position = user.split(",")
-		
+		user = input("\nSelect position x y: ")
+		global position 
+		position = user.split(" ")
+		x = position[1]
+		y = position[0]
+
+		if position[0] == "F":
+			flag()
+		else:
 		# code for revealing user position in progress
 		#if board[a][b] != 'X':
-		if board[int(position[1])][int(position[0])] == '*':
-			initBoard[int(position[1])][int(position[0])] = board[a][b]
-			isPlaying = False
-			endGame()
+			if board[int(position[1])][int(position[0])] == '*':
+				initBoard[int(position[1])][int(position[0])] = board[a][b]
+				isPlaying = False
+				endGame()
 
-		else:
-			initBoard[int(position[1])][int(position[0])] = board[int(position[1])][int(position[0])]
-			if board[int(position[1])][int(position[0])] == 0:
-	
-				zero = True
+			else:
+				initBoard[int(position[1])][int(position[0])] = board[int(position[1])][int(position[0])]
+				if board[int(position[1])][int(position[0])] == 0:
 
+					"""
+					- while loop, pulling elements out of the zeroes list, list of coordinates
+					- tuples - 2D list [[1,2],[3,7],[2,8]]
+					"""
 
-				"""
-				- while loop, pulling elements out of the zeroes list, list of coordinates
-
-				tuples - 2D list [[1,2],[3,7],[2,8]]
-				"""
-
-				# list of zeroes
-				# z is a 2D list!
-				z = []
-				z.append([ int(position[1]) , int(position[0]) ])
+					# list of zeroes
+					# z is a 2D list!
+					z = []
+					z.append([ int(position[1]) , int(position[0]) ])
 
 
 				while len(z) > 0:
@@ -112,75 +130,24 @@ def msGame():
 					pos = z.pop(0)
 					for i in range(-1,2):
 						for j in range (-1,2):
+
 							# if the term is equal to zero and it has not been revealed before
-							print(initBoard[pos[0]+i][pos[1]+j])
 							if board[pos[0]+i][pos[1]+j] == 0 and initBoard[pos[0]+i][pos[1]+j] == 'X':
 								z.append([pos[0]+i , pos[1]+j])
-
 							initBoard[pos[0]+i][pos[1]+j] = board[pos[0]+i][pos[1]+j]
+				sys.stdout.write("\n")
 
 
-
-
-
-				"""
-				# down
-				d = int(position[1])
-				while d <= h-1: 
-					if (board[d][int(position[0])] == 0):
-						initBoard[d][int(position[0])] = board[d][int(position[0])]
-						d += 1
-					else:
-						break
-				
-				# up
-				u = int(position[1])
-				while u >= 0: 
-					if (board[u][int(position[0])] == 0):
-						initBoard[u][int(position[0])] = board[u][int(position[0])]
-						u -= 1
-					else:
-						break
-
-				# left
-				l = int(position[0])
-				while l >= 0: 
-					if (board[int(position[1])][l] == 0):
-						initBoard[int(position[1])][l] = board[int(position[1])][l]
-						l -= 1
-					else:
-						break
-				
-				# right
-				ri = int(position[0])
-				while ri <= w-1: 
-					if (board[int(position[1])][ri] == 0):
-						initBoard[int(position[1])][ri] = board[int(position[1])][ri]
-						ri += 1
-					else:
-						break
-				"""
-
+		# printing board
 		for i in range(1,len(board)-1):
 			# len(board[0])-1 is width
 			for j in range(1,len(board[0])-1):
 				print(initBoard[i][j], end=" ")
 			sys.stdout.write("\n")
-	
-	
-"""
-	# print full board
-	# len(board)-1 is height
-	for i in range(1,len(board)-1):
-		# len(board[0])-1 is width
-		for j in range(1,len(board[0])-1):
-			board[i][j]
-			print(board[i][j], end=" ")
-		sys.stdout.write("\n")
-"""
+
+	msGame()
 
 
-startGame()
 msGame()
 
 
