@@ -1,16 +1,20 @@
-# Minesweeper Game!
+# Esther Sojung An
 # 10/9/2018
+# Minesweeper Game!
+
+# On my honor, I have neither given nor received unauthorized aid.
 
 """
 Sources:
 - 2-dimensional list - https://stackoverflow.com/questions/22584652/python-how-to-print-out-a-2d-list-that-is-formatted-into-a-grid
 - String Split - https://www.w3schools.com/python/ref_string_split.asp
-- Break - https://www.tutorialspoint.com/python/python_break_statement.htm
 """
 
+
+# IMPORTS
 import sys
 import random as r
-import string as s
+
 
 w = None
 h = None
@@ -22,28 +26,31 @@ def endGame():
 	print("\nSorry, you lost! Play again!\n")
 
 
+def win():
+	# pseudo code - win if the number of unrevealed tiles + number of flags = number of bombs
+	print("You win!!! CONGRATULATIONS! Play again!\n")
+
+
+# counting number of unrevealed tiles
 def countX():
-	countX = 0
+	global countx
+	countx = 0
 	for i in range(1,len(initBoard)-1):
-	# len(board[0])-1 is width
+		# len(board[0])-1 is width
 		for j in range(1,len(initBoard[0])-1):
 			if initBoard[i][j] == 'X':
-				countX +=1
-	return(countX)
+				countx +=1
 
 
+# counting number of flags
 def countF():
-	countF = 0
+	global countf
+	countf = 0
 	for i in range(1,len(initBoard)-1):
-	# len(board[0])-1 is width
+		# len(board[0])-1 is width
 		for j in range(1,len(initBoard[0])-1):
 			if initBoard[i][j] == 'F':
-				countF +=1
-	print(countF)
-
-
-def win():
-	# pseudo code - if the number of unrevealed tiles + number of flags = number of bombs
+				countf +=1
 
 
 def flag():	
@@ -55,34 +62,28 @@ def flag():
 
 
 def msGame():
-	# startGame()
 	global w,h,B,initBoard
 
 	print("\n\n\n\n#################\n" +
 		"Play Minesweeper!\n" +
 		"#################\n")
 
-
-	######## set dimensions for board
+	# set dimensions for board
 	w = int(sys.argv[1]) + 2
 	h = int(sys.argv[2]) + 2
 	B = int(sys.argv[3])
 
+	# initBoard is user board
 	initBoard = [['X']*w for b in range(h)]
-	
 
-	# print (initBoard.count('X'))
-
-	# print userboard
+	# print initBoard
 	for i in range(1,h-1):
 		for j in range(1,w-1):
 			# board[i][j]
 			print(initBoard[i][j], end=" ")
 		sys.stdout.write("\n")
 
-	########
-
-
+	# boolean if game is playing
 	isPlaying = True
 
 	# initial number of adjacent bombs set equal to 0
@@ -114,41 +115,39 @@ def msGame():
 	# terms of 1D list i is term in row
 	for i in board:
 		i[0] = 1
+		# i[-1] is the last term of the list
 		i[-1] = 1
 
 
 	while (isPlaying): 
 		user = input("\nSelect position x y: ")
-		global position 
+		global position
+		# user coordinate input translated to code
 		position = user.split(" ")
-		x = position[1]
-		y = position[0]
+		x = position[0]
+		y = position[1]
 
+		# if user flags a coordinate
 		if position[0] == "F":
 			flag()
-			sys.stdout.write("\n")
+			sys.stdout.write("\n\n")
+
+		# if user reveals a tile
 		else:
-		# code for revealing user position in progress
-		# if board[a][b] != 'X':
-			if board[int(position[1])][int(position[0])] == '*':
-				initBoard[int(position[1])][int(position[0])] = board[a][b]
+			# bomb revealed, user loses
+			if board[int(y)][int(x)] == '*':
+				initBoard[int(y)][int(x)] = board[a][b]
 				isPlaying = False
 				endGame()
 
+			# numbers revealed, user continues game
 			else:
-				initBoard[int(position[1])][int(position[0])] = board[int(position[1])][int(position[0])]
-				if board[int(position[1])][int(position[0])] == 0:
-
-					"""
-					- while loop, pulling elements out of the zeroes list, list of coordinates
-					- tuples - 2D list [[1,2],[3,7],[2,8]]
-					"""
-
+				initBoard[int(y)][int(x)] = board[int(y)][int(x)]
+				if board[int(y)][int(x)] == 0:
 					# list of zeroes
 					# z is a 2D list!
 					z = []
-					z.append([ int(position[1]) , int(position[0]) ])
-
+					z.append([ int(y) , int(x) ])
 
 				# printing user board throughout game
 				while len(z) > 0:
@@ -157,30 +156,21 @@ def msGame():
 					for i in range(-1,2):
 						for j in range (-1,2):
 
-							# if the term is equal to zero and it has not been revealed before
+							# if the term is equal to zero and it has not been revealed before, add to z list
 							if board[pos[0]+i][pos[1]+j] == 0 and initBoard[pos[0]+i][pos[1]+j] == 'X':
 								z.append([pos[0]+i , pos[1]+j])
 							initBoard[pos[0]+i][pos[1]+j] = board[pos[0]+i][pos[1]+j]
 				sys.stdout.write("\n\n")
 
-
 				countX()
 				countF()
-				if (countX + countF) == B:
+				
+				# if sum of unrevealed tiles and flagged tiles equals number of bombs, user wins
+				if (countx + countf) == B:
+					isPlaying = False
 					win()
 
-
-				"""
-				m = 0
-				n = 0
-				count = 0
-				for i in range(len(initBoard)):
-					if initBoard[m][n] == 'X':
-						count +=1
-				print(count)
-				"""
-
-		# printing board
+		# printing board during game
 		for i in range(1,len(board)-1):
 			# len(board[0])-1 is width
 			for j in range(1,len(board[0])-1):
