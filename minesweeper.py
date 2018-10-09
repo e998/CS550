@@ -10,6 +10,7 @@ Sources:
 
 import sys
 import random as r
+import string as s
 
 w = None
 h = None
@@ -21,19 +22,36 @@ def endGame():
 	print("\nSorry, you lost! Play again!\n")
 
 
-"""
+def countX():
+	countX = 0
+	for i in range(1,len(initBoard)-1):
+	# len(board[0])-1 is width
+		for j in range(1,len(initBoard[0])-1):
+			if initBoard[i][j] == 'X':
+				countX +=1
+	return(countX)
+
+
+def countF():
+	countF = 0
+	for i in range(1,len(initBoard)-1):
+	# len(board[0])-1 is width
+		for j in range(1,len(initBoard[0])-1):
+			if initBoard[i][j] == 'F':
+				countF +=1
+	print(countF)
+
+
 def win():
-	if the number of unrevealed tiles + number of flags = number of bombs
-"""
+	# pseudo code - if the number of unrevealed tiles + number of flags = number of bombs
 
 
 def flag():	
-	position.pop(0)
-	x = position[1]
-	y = position[0]
-	initBoard[int(x)][int(y)] = "F"
-	# if user == "F" + str(flagx) + str(flagy):
-	print(initBoard[int(x)][int(y)])
+	if initBoard[int(float(position[2]))][int(float(position[1]))] == 'X':
+		position.pop(0)
+		x = position[1]
+		y = position[0]
+		initBoard[int(x)][int(y)] = "F"
 
 
 def msGame():
@@ -44,12 +62,16 @@ def msGame():
 		"Play Minesweeper!\n" +
 		"#################\n")
 
+
 	######## set dimensions for board
 	w = int(sys.argv[1]) + 2
 	h = int(sys.argv[2]) + 2
 	B = int(sys.argv[3])
 
 	initBoard = [['X']*w for b in range(h)]
+	
+
+	# print (initBoard.count('X'))
 
 	# print userboard
 	for i in range(1,h-1):
@@ -57,7 +79,9 @@ def msGame():
 			# board[i][j]
 			print(initBoard[i][j], end=" ")
 		sys.stdout.write("\n")
+
 	########
+
 
 	isPlaying = True
 
@@ -102,9 +126,10 @@ def msGame():
 
 		if position[0] == "F":
 			flag()
+			sys.stdout.write("\n")
 		else:
 		# code for revealing user position in progress
-		#if board[a][b] != 'X':
+		# if board[a][b] != 'X':
 			if board[int(position[1])][int(position[0])] == '*':
 				initBoard[int(position[1])][int(position[0])] = board[a][b]
 				isPlaying = False
@@ -125,6 +150,7 @@ def msGame():
 					z.append([ int(position[1]) , int(position[0]) ])
 
 
+				# printing user board throughout game
 				while len(z) > 0:
 					# deleting and returning FIRST term of zeroes list!
 					pos = z.pop(0)
@@ -135,8 +161,24 @@ def msGame():
 							if board[pos[0]+i][pos[1]+j] == 0 and initBoard[pos[0]+i][pos[1]+j] == 'X':
 								z.append([pos[0]+i , pos[1]+j])
 							initBoard[pos[0]+i][pos[1]+j] = board[pos[0]+i][pos[1]+j]
-				sys.stdout.write("\n")
+				sys.stdout.write("\n\n")
 
+
+				countX()
+				countF()
+				if (countX + countF) == B:
+					win()
+
+
+				"""
+				m = 0
+				n = 0
+				count = 0
+				for i in range(len(initBoard)):
+					if initBoard[m][n] == 'X':
+						count +=1
+				print(count)
+				"""
 
 		# printing board
 		for i in range(1,len(board)-1):
