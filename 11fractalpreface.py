@@ -49,3 +49,10 @@ for i in range(62):
 		image.putpixel((i,j),(0+int(i*(3.5)),0, 0))
 
 
+image.save("fractaldemo.png","PNG")
+
+
+
+
+
+
