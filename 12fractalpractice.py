@@ -3,23 +3,39 @@
 # PIL = PILLOW
 from PIL import Image
 
+"""
 # Checkerboard!
 
-imgx = 500
-imgy = 500
+imgx = 100
+imgy = 100
+w = 10
+n = 10
 
 square = Image.new("RGB",(imgx, imgy))
 
+for a in range(imgx):
+	for b in range(imgy):
+		if a%20 < 10:
+			if b%20 < 10:
+				square.putpixel((a,b),(0,0,0))
+			else:
+				square.putpixel((a,b),(255,0,0))
+		else:
+			if b%20 >= 10:
+				square.putpixel((a,b),(0,0,0))
+			else:
+				square.putpixel((a,b),(255,0,0))
 
-if a%50 == 0:
-	for a in range(imgx):
-		for i in range(50):
-			for j in range(50):
-				image.putpixel((i,j),255,0,0)
+square.save("checkerboard.png","PNG")
+"""
 
-else:
-	for b in range(imgx):
-		for i in range(50):
+
+
+
+
+
+
+
 
 
 
