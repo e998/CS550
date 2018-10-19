@@ -1,51 +1,40 @@
-# 10/19/2018 HW
+# 10/19/2018
 # Mandelbrot
 
 # PIL = PILLOW
 from PIL import Image
 
-import random as r
+# change values to shift and zoom
+# -1.0, 0.0
+xmin, xmax = -2.0, 2.0
+ymin, ymax = -2.0, 2.0
 
-imgx = 512
-imgy = 512
+imgx, imgy = 512, 512
 
-# tuple is width and height of picture - (imgx, imgy)
-mandelbrot = Image.new("RGB",(imgm, imgn))
+# maximum iterations, color based on number of iterations
+maxIt = 256
 
-# variable.putpixel((how far over, how far down), (color))
+image = Image.new("RGB", (imgx,imgy))
 
-n = 0
+for y in range(imgy):
+	cy = ( y * (ymax-ymin) / (imgy-1) ) + ymin
+	for x in range(imgx):
+		cx = ( x * (xmax-xmin) / (imgx-1) ) + xmin
+		c = complex(cx,cy)
+		z = 0
+		for i in range(maxIt):
+			if abs(z) > 2.0:
+				break
+			z = z**2 + c
 
-for i in range(1,255):
-	if i <=255
-		True
-	else
-		False
+		r = (i*5)%256
+		g = (256-2*i)%256 #(i*50)%256
+		b = (i*100)%256 #256-i
 
-while mandelbrot == True:
-	for a in range(-256,256):
-		for b in range(-256,256):
-			c = (a,b)
+		# could just write: image.putpixel((x,y),(i,0,0)) 
+		image.putpixel((x,y),(r,g,b))
 
-			x = r.randint(-256,256)
-			y = r.randint(-256,256)
-
-			# length of z
-			z = (x**2 + y**2)**(0.5)
-
-			# Z = z**2
-			Z = (x**2 - y**2, 2*x*y)
-
-			# z(n+1) = z(n)**2 + c
-			z = Z + c
-
-			n += 1
-
-while mandelbrot == False:
-	break
-	image.putpixel((x,y),(n,0,0))
-
-mandelbrot.save("mandelbrot.png","PNG")
+image.show()
 
 
 
