@@ -1,14 +1,26 @@
 # 10/19/2018
 # Mandelbrot
 
+""" SOURCES
+colorsys - https://docs.python.org/2/library/colorsys.html
+"""
+
+### IMPORTS
 # PIL = PILLOW
 from PIL import Image
 import colorsys
 
 # change values to shift and zoom
 # -1.0, 0.0
+
+"""
+xmin, xmax = -2.0, 2.0
+ymin, ymax = -2.0, 2.0
+
+"""
 xmin, xmax = -0.817370927008279343525, -0.817364941727795366608
 ymin, ymax = 0.188930795344368481106, 0.188935270320431267586
+
 
 imgx, imgy = 512, 512
 
@@ -30,13 +42,14 @@ for y in range(imgy):
 
 		r = 2*i%256
 		g = (i*500)%256 #(i*50)%256
-		b = (i*2)%256 #256-i
+		b = (256-i) #256-i
 
-		# using colorsys for hsv
-		h,s,v = colorsys.rgb_to_hsv(r,g,b)
+		# converting between color systems with colorsys - rgb to hsv
+
+		#h,l,s = colorsys.rgb_to_hls(r,g,b)
 
 		# could just write: image.putpixel((x,y),(i,0,0)) 
-		image.putpixel((x,y),(int(h),int(s),int(v)))
+		image.putpixel((x,y),(r,g,b))
 
 image.show()
 
