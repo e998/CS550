@@ -38,14 +38,8 @@ for y in range(imgy):
 				break
 			z = z**2 + c
 
-		"""
-		r = 2*i%256
-		g = (i*500)%256 #(i*50)%256
-		b = (256-i) #256-i
-		"""
-
-		r = (2*i%256)/256
-		g = ((i*500)%256)/256 #(i*50)%256
+		r = 2*i%256/256
+		g = (i*500)%256/256 #(i*50)%256
 		b = (256-i)/256 #256-i
 
 		# converting between color systems with colorsys - rgb to hsv
@@ -75,12 +69,13 @@ for y in range(imgy):
 				break
 			z = z**2 + c
 
-		r = (2*i%256)/256
-		g = ((i*500)%256)/256 #(i*50)%256
-		b = (256-i)/256 #256-i
+		# colorsys values go from 0 to 1, dividing by 256
+		r = (i)/256
+		g = (i*9)/256 #(i*50)%256
+		b = (256-3*i)/256 #256-i
 
 		# converting between color systems with colorsys - rgb to hsv
-		r,g,b = colorsys.hls_to_rgb(r,g,b)
+		r,g,b = colorsys.hsv_to_rgb(r,g,b)
 
 		mandelbrot2.putpixel((x,y),(int(r*256),int(g*256),int(b*256)))
 
