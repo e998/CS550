@@ -3,6 +3,7 @@
 
 """ SOURCES
 colorsys - https://docs.python.org/2/library/colorsys.html
+Mandelbrot zoom - http://math.hws.edu/eck/js/mandelbrot/MB.html
 """
 
 ### IMPORTS
@@ -45,6 +46,7 @@ for y in range(imgy):
 		# converting between color systems with colorsys - rgb to hsv
 		#h,l,s = colorsys.rgb_to_hls(r,g,b)
 		r,g,b = colorsys.hls_to_rgb(r,g,b)
+		# blurriness, alternating colors
 
 		# could just write: image.putpixel((x,y),(i,0,0)) 
 		# mandelbrot1.putpixel((x,y),(r,g,b))
@@ -84,14 +86,19 @@ mandelbrot2.show()
 
 
 ####### Koch Snowflake Fractal
+
+draw = ImageDraw.Draw(im)
+
 """
 xmin2, xmax2 = -0.562661266291329170164, -0.562644107056929170164
 ymin2, ymax2 = 0.642991779771537499892, 0.643004649197337499892
+"""
 
-		koch.putpixel((x,y),(r,g,b))
+draw.line((0, im.size[1], im.size[0], 0), fill=128)
+
+koch.putpixel((x,y),(r,g,b))
 
 koch.show()
-"""
 
 
 
