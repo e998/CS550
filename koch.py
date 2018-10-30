@@ -40,7 +40,11 @@ def normal(distance):
 def gogoFractal(pA, pB):
 	global height
 	# draw.line( (x1,y1), (x2,y2), fill=value )
+
+	"""drawing full line from PA to PB
 	draw.line(((pA[0], pA[1]), (pB[0], pB[1])), fill=128)
+	"""
+
 
 	# t = 1/3
 	lx = ((2/3)*pA[0] + (1/3)*pB[0])
@@ -51,6 +55,13 @@ def gogoFractal(pA, pB):
 	rx = ((1/3)*pA[0] + (2/3)*pB[0])
 	ry = ((1/3)*pA[1] + (2/3)*pB[1])
 	right = ( rx , ry )
+
+
+
+	# drawing PA to PB without middle section
+	draw.line(((pA[0], pA[1]), (lx, ly)), fill=128)
+	draw.line(((rx,ry), (pB[0], pB[1])), fill=128)
+
 
 	# height of the triangle
 	h = float(((sqrt(3))/2) * (1/3) * (distance((imgx/2, 140), (imgx/2 - 125, 140 + 125*sqrt(3)))))
@@ -71,11 +82,20 @@ def gogoFractal(pA, pB):
 	tx = int(mx - (h/2)*sqrt(3))
 	ty = int(my-(h/2))
 
+
 	koch.putpixel((tx,ty),(255, 0, 0))
 
 
 	draw.line(((lx, ly), (tx, ty)), fill=128)
 	draw.line(((rx, ry), (tx, ty)), fill=128)
+
+
+	# redefining points for 2nd iteration
+
+
+
+
+
 
 
 	# top point of triangle
