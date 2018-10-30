@@ -39,13 +39,22 @@ for y in range(imgy):
 				break
 			z = z**2 + c
 
+		"""
 		r = 2*i%256/256
 		g = (i*500)%256/256 #(i*50)%256
 		b = (256-i)/256 #256-i
+		"""
+
+		r = (i)/256
+		g = (i*9)/256 #(i*50)%256
+		b = (256-3*i)/256 #256-i
 
 		# converting between color systems with colorsys - rgb to hsv
 		#h,l,s = colorsys.rgb_to_hls(r,g,b)
-		r,g,b = colorsys.hls_to_rgb(r,g,b)
+
+
+		#r,g,b = colorsys.hls_to_rgb(r,g,b)
+		r,g,b = colorsys.hsv_to_rgb(r,g,b)
 		# blurriness, alternating colors
 
 		# could just write: image.putpixel((x,y),(i,0,0)) 
@@ -57,8 +66,13 @@ mandelbrot1.show()
 
 
 ####### Mandelbrot Fractal 2
+"""
 xmin2, xmax2 = -0.562661266291329170164, -0.562644107056929170164
 ymin2, ymax2 = 0.642991779771537499892, 0.643004649197337499892
+"""
+
+xmin2, xmax2 = -0.749955274999999998904, -0.746477499999999999071
+ymin2, ymax2 = 0.067210575000000000000, 0.06981370000000000000033
 
 for y in range(imgy):
 	cy = ( y * (ymax2-ymin2) / (imgy-1) ) + ymin2

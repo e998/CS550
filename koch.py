@@ -43,14 +43,17 @@ def gogoFractal(pA, pB):
 	draw.line(((pA[0], pA[1]), (pB[0], pB[1])), fill=128)
 
 	# t = 1/3
-	left = ( ((2/3)*pA[0] + (1/3)*pB[0]) , ((2/3)*pA[1] + (1/3)*pB[1]) )
+	lx = ((2/3)*pA[0] + (1/3)*pB[0])
+	ly = ((2/3)*pA[1] + (1/3)*pB[1])
+	left = ( lx , ly )
 
 	# t = 2/3
-	right = ( ((1/3)*pA[0] + (2/3)*pB[0]) , ((1/3)*pA[1] + (2/3)*pB[1]) )
+	rx = ((1/3)*pA[0] + (2/3)*pB[0])
+	ry = ((1/3)*pA[1] + (2/3)*pB[1])
+	right = ( rx , ry )
 
 	# height of the triangle
-	height = float(((sqrt(3))/2) * (distance((10, 100), (20, 110))))
-
+	h = float(((sqrt(3))/2) * (1/3) * (distance((imgx/2, 140), (imgx/2 - 125, 140 + 125*sqrt(3)))))
 
 
 	# midpt of triangle
@@ -63,6 +66,17 @@ def gogoFractal(pA, pB):
 
 	# slope of triangle height
 	hSlope = -1/slope
+
+	# top of triangle 1
+	tx = int(mx - (h/2)*sqrt(3))
+	ty = int(my-(h/2))
+
+	koch.putpixel((tx,ty),(255, 0, 0))
+
+
+	draw.line(((lx, ly), (tx, ty)), fill=128)
+	draw.line(((rx, ry), (tx, ty)), fill=128)
+
 
 	# top point of triangle
 	"""
@@ -83,7 +97,7 @@ def gogoFractal(pA, pB):
 
 
 
-
+"""
 def perpBisect(aX, aY, bX, bY, height):
     vX = bX-aX
     vY = bY-aY
@@ -104,16 +118,14 @@ def perpBisect(aX, aY, bX, bY, height):
 
     koch.putpixel((int(vX),int(vY)),(255, 0, 0))
 
-
 perpBisect(10,100, 20,110, 10)
+"""
+
 
 """
 	Y-my = (-1/slope)(X-mx) 
 	((sqrt(3))/2) * distance((mx, my), (X, Y)) = height
 """
-
-
-
 
 
 """ pseudo-code for gogoFractal
@@ -126,7 +138,7 @@ def gogoFractal(pA, pB, pC):
 """
 
 # gogoFractal((x1, y1), (x2, y2), (x3, y3))
-gogoFractal((10, 100), (20, 110))
+gogoFractal((imgx/2, 140), (imgx/2 - 125, 140 + 125*sqrt(3)))
 
 
 # fractal(0,10,10,30)
