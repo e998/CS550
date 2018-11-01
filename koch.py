@@ -7,26 +7,9 @@ from PIL import Image, ImageDraw
 from math import *
 
 imgx, imgy = 512, 512
-
 koch = Image.new("RGB", (imgx,imgy))
 
-"""
-def distance(x1,x2,y1,y2):
-	return sqrt((x1-x2)**2 + (y1-y2)**2)
-
-def fractal(x1,x2,y1,y2):
-	# global koch
-	for i in range(x1,x2):
-		koch.putpixel((i,y2-y1), (255,0,0))
-	for i in range(int(distance(x1,x2,y1,y2)+1)):
-		x2 = x1 + cos(pi/3)*i
-		y2 = y1 + sin(pi/3)*i
-		koch.putpixel((int(x2),int(y2)), (255,0,0))
-"""
-
 draw = ImageDraw.Draw(koch)
-
-# draw.line(((0, 0),(100,100)), fill=128)
 
 def distance(pA, pB):
 	return sqrt((pA[0]-pB[0])**2 + (pA[1]-pB[1])**2)
@@ -37,14 +20,8 @@ def normal(distance):
    		div(m)
 
 # def gogoFractal(pA, pB, pC):
-def gogoFractal(pA, pB):
-	global height
-	# draw.line( (x1,y1), (x2,y2), fill=value )
-
-	"""drawing full line from PA to PB
-	draw.line(((pA[0], pA[1]), (pB[0], pB[1])), fill=128)
-	"""
-
+def gogoFractalAB(pA, pB):
+	global h, lx, ly, rx, ry, tx, ty
 
 	# t = 1/3
 	lx = ((2/3)*pA[0] + (1/3)*pB[0])
@@ -56,16 +33,16 @@ def gogoFractal(pA, pB):
 	ry = ((1/3)*pA[1] + (2/3)*pB[1])
 	right = ( rx , ry )
 
-
-
 	# drawing PA to PB without middle section
 	draw.line(((pA[0], pA[1]), (lx, ly)), fill=128)
 	draw.line(((rx,ry), (pB[0], pB[1])), fill=128)
 
-
 	# height of the triangle
-	h = float(((sqrt(3))/2) * (1/3) * (distance((imgx/2, 140), (imgx/2 - 125, 140 + 125*sqrt(3)))))
 
+	if pA[1]==pB[1] or ly == ry:
+		h = float(((sqrt(3))/2) * (1/3) * (distance( (pA[0],pA[1]) , (pB[0],pB[1]) )))
+	else:
+		h = float(((sqrt(3))/2) * (1/3) * (distance( (pA[0],pA[1]) , (pB[0],pB[1]) )))
 
 	# midpt of triangle
 	mx = (pA[0]+pB[0])/2
@@ -82,70 +59,13 @@ def gogoFractal(pA, pB):
 	tx = int(mx - (h/2)*sqrt(3))
 	ty = int(my-(h/2))
 
-
 	koch.putpixel((tx,ty),(255, 0, 0))
-
 
 	draw.line(((lx, ly), (tx, ty)), fill=128)
 	draw.line(((rx, ry), (tx, ty)), fill=128)
 
 
 	# redefining points for 2nd iteration
-
-
-
-
-
-
-
-	# top point of triangle
-	"""
-	draw.line(distance((mx, my), (hx, hy))
-	pA[0]*pB[0] + pA[1]*
-	if mx*hx + my*hx == 0
-	"""
-
-	"""
-	X = mx - (cos(hSlope))*(float(height))
-	Y = my - (sin(hSlope))*(float(height))
-	"""
-
-	"""
-	X = mx - (cos(pi/4))*height
-	Y = my - (sin(pi/4))*height
-	"""
-
-
-
-"""
-def perpBisect(aX, aY, bX, bY, height):
-    vX = bX-aX
-    vY = bY-aY
-    #print(str(vX)+" "+str(vY))
-    if(vX == 0 or vY == 0):
-        return 0, 0, 0, 0
-    mag = sqrt(vX*vX + vY*vY)
-    vX = vX / mag
-    vY = vY / mag
-    temp = vX
-    vX = 0-vY
-    vY = temp
-    cX = bX + vX * height
-    cY = bY + vY * height
-    dX = bX - vX * height
-    dY = bY - vY * height
-    return int(cX), int(cY), int(dX), int(dY)
-
-    koch.putpixel((int(vX),int(vY)),(255, 0, 0))
-
-perpBisect(10,100, 20,110, 10)
-"""
-
-
-"""
-	Y-my = (-1/slope)(X-mx) 
-	((sqrt(3))/2) * distance((mx, my), (X, Y)) = height
-"""
 
 
 """ pseudo-code for gogoFractal
@@ -157,11 +77,110 @@ def gogoFractal(pA, pB, pC):
         # do the same process for B and C, and then C and A
 """
 
-# gogoFractal((x1, y1), (x2, y2), (x3, y3))
-gogoFractal((imgx/2, 140), (imgx/2 - 125, 140 + 125*sqrt(3)))
+def gogoFractalCA(pA, pC):
+	global h, lx, ly, rx, ry, tx, ty
 
+	# t = 1/3
+	lx = ((2/3)*pC[0] + (1/3)*pA[0])
+	ly = ((2/3)*pC[1] + (1/3)*pA[1])
+	left = ( lx , ly )
+
+	# t = 2/3
+	rx = ((1/3)*pC[0] + (2/3)*pA[0])
+	ry = ((1/3)*pC[1] + (2/3)*pA[1])
+	right = ( rx , ry )
+
+	# drawing PA to PB without middle section
+	draw.line(((pC[0], pC[1]), (lx, ly)), fill=128)
+	draw.line(((rx,ry), (pA[0], pA[1])), fill=128)
+
+	# height of the triangle
+
+	if pC[1]==pA[1] or ly == ry:
+		h = float(((sqrt(3))/2) * (1/3) * (distance( (pC[0],pC[1]) , (pA[0],pA[1]) )))
+	else:
+		h = float(((sqrt(3))/2) * (1/3) * (distance( (pC[0],pC[1]) , (pA[0],pA[1]) )))
+
+	# midpt of triangle
+	mx = (pC[0]+pA[0])/2
+	my = (pC[1]+pA[1])/2
+	midpt = (mx, my)
+
+
+	# top of triangle 1
+	tx = int(mx + (h/2)*sqrt(3))
+	ty = int(my-(h/2))
+
+	koch.putpixel((tx,ty),(255, 0, 0))
+
+	draw.line(((lx, ly), (tx, ty)), fill=128)
+	draw.line(((rx, ry), (tx, ty)), fill=128)
+
+
+
+
+def gogoFractalBC(pB, pC):
+	global h, lx, ly, rx, ry, tx, ty
+
+	# t = 1/3
+	lx = ((2/3)*pC[0] + (1/3)*pB[0])
+	ly = ((2/3)*pC[1] + (1/3)*pB[1])
+	left = ( lx , ly )
+
+	# t = 2/3
+	rx = ((1/3)*pC[0] + (2/3)*pB[0])
+	ry = ((1/3)*pC[1] + (2/3)*pB[1])
+	right = ( rx , ry )
+
+	# drawing PA to PB without middle section
+	draw.line(((pC[0], pC[1]), (lx, ly)), fill=128)
+	draw.line(((rx,ry), (pB[0], pB[1])), fill=128)
+
+	# height of the triangle
+	if pC[1]==pB[1] or ly == ry:
+		h = float(((sqrt(3))/2) * (1/3) * (distance( (pC[0],pC[1]) , (pB[0],pB[1]) )))
+	else:
+		h = float(((sqrt(3))/2) * (1/3) * (distance( (pC[0],pC[1]) , (pB[0],pB[1]) )))
+
+	# midpt of triangle
+	mx = (pC[0]+pB[0])/2
+	my = (pC[1]+pB[1])/2
+	midpt = (mx, my)
+
+	# top of triangle 1
+	tx = int(mx)
+	ty = int(my+(h/2)*sqrt(3))
+
+	koch.putpixel((tx,ty),(255, 0, 0))
+
+	draw.line(((lx, ly), (tx, ty)), fill=128)
+	draw.line(((rx, ry), (tx, ty)), fill=128)
+
+
+
+
+
+# gogoFractal((x1, y1), (x2, y2), (x3, y3))
+
+# pA to pB
+gogoFractalAB((imgx/2, 140), (imgx/2 - 125, 140 + 125*sqrt(3)))
+
+# pB to pC
+gogoFractalBC((imgx/2 - 125, 140 + 125*sqrt(3)), (imgx/2 + 125, 140 + 125*sqrt(3)))
+
+# pC to pA
+gogoFractalCA((imgx/2 + 125, 140 + 125*sqrt(3)), (imgx/2, 140))
+
+
+gogoFractalAB((imgx/2, 140), (lx,ly))
+# gogoFractalAB((imgx/2 - 125, 140 + 125*sqrt(3)), (rx,ry))
+
+# need to do this after redefining variables and recursion?
+gogoFractalAB((lx,ly), (tx,ty))
+# gogoFractalAB((tx,ty), (rx,ry))
 
 # fractal(0,10,10,30)
+
 koch.show()
 
 
