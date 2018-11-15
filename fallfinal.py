@@ -1,7 +1,7 @@
 # Esther Sojung An
 # 11/14/2018
 # Fall Final Project: More Fractals!
-# 
+# It was challenging to work with these fractals and to understand specific patterns, but it was really cool and rewarding. Learning turtle was a fun process and I loved working with it! There were some aspects, including when I was attempting to draw squares for the Pythagoras tree, that were difficult to understand when using the module. Other sections, however, like the koch snowflake, were a lot easier to complete with the use of turtle and made more sense logically. Working with pseudo-code was very important for this project and took a lot of time because I had to understand what the objective of each function was before going in and trying to complete something. I had a lot of code that didn’t end of working, and it took numerous drafts, but I learned a lot about the thinking process behind completing these problems!
 
 # On my honor, I have neither given nor received unauthorized aid.
 
@@ -48,12 +48,12 @@ def innerkoch(n):
 	# turtle.colormode sets range for color in RGB; chose min. value = 0, max. value = 255
 	turtle.colormode(255)
 	# turtle.pencolor dependent on changing N value, displays a repeating gradient
-	turtle.pencolor( (100*N + 10)%255, N%255, N%255)
+	turtle.pencolor( (100*N + 10)%255, (N+50)%255, 200)
 
 	# must begin drawing if n (number of iterations left to do) equals zero
 	if n == 0:
 		# change N variable to shift turtle.pencolor for gradient
-		N += 10
+		N += 20
 		# actually drawing each line segment, length of line always 1/3 of previous length
 		# program does not start drawing until n=0 and this code is reached because must smallest iterations must be drawn first to complete details of the snowflake
 		turtle.fd(l/3)
@@ -115,7 +115,8 @@ def cantor(iter,l,x,y):
 	# x is initial x of first line
 	# y is initial y of first line
 	# d is distance between the horizontal lines of cantor set on the y-axis
-	turtle.width(1)
+	turtle.seth(0)
+	turtle.width(2)
 	d = 30
 
 	# must end drawing if iter (number of iterations left to do) equals zero
@@ -124,8 +125,9 @@ def cantor(iter,l,x,y):
 
 	else:
 		# CANTOR SET COLOR
+		# color depends on iteration, forms a gradient
 		turtle.colormode(255)
-		turtle.pencolor((iter*100)%255, 100, 100)
+		turtle.pencolor((iter*25)%255, 100, 170)
 
 		# draw line from x,y by l
 		turtle.pu()
@@ -139,267 +141,49 @@ def cantor(iter,l,x,y):
 		# third 1/3 segment is drawn at the two-thirds mark on the original line
 		cantor(iter-1, l/3, x, y-d)
 		cantor(iter-1, l/3, x+(2*l/3), y-d)
+s
 
 
+### Pythagoras Tree Code
 
-# CALLING ALL CODE TO DRAW FRACTALS
+def tree(iter, w):
+	turtle.width(7)
+	global N # used for changing some colors in pythagoras
+	N +=30
 
-# if user wants to draw koch snowflake
-def kochOption():
-	kochUser = input("\nHow many iterations of the curve would you like to implement?: ")
-	# check if input is a whole number, number of iterations should be such a number
-	if float(kochUser)%1 == 0:
-		koch(int(kochUser))
-		print("\nClick on the image to exit!\n")
-	else:
-		print("Can't do that number of iterations! Type in a natural number.")
-		kochOption()
+	# PYTHAGORAS COLOR, for left squares
+	turtle.colormode(255)
+	turtle.pencolor((iter*153 + 40)%255, (iter*3 + 30)%255, (iter*100 + 35)%255)
 
-# if user wants to draw cantor set
-def cantorOption():
-	# check if input is a whole number, preferable if length of original line is such a number
-	cantorUser = input("\nHow long would you like the original line to be?: ")
-	if float(cantorUser)%1 == 0:
-		cantor(7, int(cantorUser), -350, 300)
-		print("\nClick on the fractal image to exit!\n")
-	else:
-		print("Can't make that the length of the original line! Type in a natural number.")
-		cantorOption()
-
-"""
-# if user wants to draw pythagoras tree
-def pythagOption():
-"""
-
-# function for user fractal menu
-def drawFractal():
-	user = input("\n\n\nWhich fractal would you like to draw?:\n" +
-		"1. Koch Snowflake\n" +
-		"2. Cantor Set\n\n")
-		# "3. Pythagoras Tree\n\n"
-
-	if user == "1":
-		# calling code to draw koch snowflake
-		kochOption()
-	elif user == "2":
-		# calling code to draw cantor set
-		cantorOption()
-
-		"""
-		elif user == "3":
-			pythagOption()
-		"""
-	else:
-		print("\nThat option is not available! Please input 1 or 2.\n")
-		drawFractal()
-
-	# turtle module quits automatically after completing drawing without turtle.exitonclick
-	# exits program after user clicks on module screen
-	turtle.exitonclick()
-
-# calling function to display user fractal menu
-# drawFractal()
-
-
-
-# Pythagoras Tree
-"""
-def square(w, x, y):
-	turtle.pd()
-	for i in range(4):
-		turtle.fd(w)
-		turtle.left(90)
-	turtle.pu()
-
-#
-def squareL(w, x, y):
-	turtle.pu()
-	turtle.goto(x,y)
-	turtle.pd()
-	turtle.fd(w)
-	turtle.right(90)
-	turtle.fd(w)
-	turtle.right(90)
-	turtle.fd(-w)
-	turtle.right(90)
-	turtle.fd(-w)
-	turtle.right(90)
-	turtle.fd(w)
-	turtle.pu()
-#
-
-def main(iter, w, x, y):
-	turtle.pu()
-	turtle.goto(x,y)
-	turtle.pd()
-	# original square
-	square(w, x, y)
-
-	# drawing subsequent iterations
-	tree(iter, w, x, y)
-	turtle.pu()
-
-	# --turtle.goto(x-w, y)
-	# --square(w, x-w, y)
-
-
-def tree(iter, w, x, y):
-	global X
-	# end if iterations are complete
-	if iter == 0:
-		return
-	else:
-		turtle.rt(90)
-		turtle.fd(-w)
-
-		x = x - (1/2)*x
-		y = y + (1/2)*y
-
-		X = x
-		Y = y
-		turtle.rt(-135)
-		
-		square(w/sqrt(2), x, y)
-
-		turtle.pu()
-		turtle.goto(x+w, y)
-		turtle.pd()
-
-		square(w/sqrt(2), x, y)
-
-		tree(iter-1, w/sqrt(2), X, Y)
-
-
-		#
-		turtle.rt(45)
-		squareR(w, x, y)
-		
-		turtle.rt(-90)
-		squareL(w, x, y)
-
-		tree(iter-1, w/sqrt(2), x-(1/2)*w, y-(1/2)*w)
-		tree(iter-1, w/sqrt(2), x+(1/2)*w, y+(1/2)*w)
-		#
-
-main(2, 50, 0, 100)
-"""
-
-# tree(2, 50, 0, 100)
-
-# squareR(50, 100, 100)
-
-#####
-"""
-turtle.pd()
-turtle.shape("square")
-turtle.shapesize(w,w)
-turtle.pu()
-turtle.tilt(45)
-turtle.goto(100,100)
-turtle.shape('square')
-# turtle.tilt(45)
-turtle.shapesize(w,w)
-"""
-#######
-
-#######
-
-""""
-def mainsq(iter, w, x, y):
-	turtle.pd()
-	turtle.shapesize(w/sqrt(2))
-	turtle.shape("square")
-	turtle.stamp()
-
-	# W=200
-	turtle.pu()
-
-	pythag(iter-1, w/sqrt(2), x,y)
-	# pythag(iter-1, x+(1/2)*w, y+(1/2)*w)
-
-def pythag(iter, w, x, y):
-	global W
-	# W=200
-	if iter == 0:
-		return
-	else:
-		x = x+(1/4)*w/sqrt(2)
-		y= y+(sqrt(2)/4)*w
-		turtle.pu()
-		turtle.goto(x,y)
-		turtle.pd()
-		turtle.tilt(45)
-		turtle.shapesize(w/sqrt(2))
-		turtle.shape("square")
-		turtle.stamp()
-		turtle.pu()
-		# turtle.rt(-45)
-
-		pythag(iter-1, w/sqrt(2), x,y)
-
-	###
-	square = ((0,0),(10,0), (10,10), (0,10))
-	s = turtle.Shape("compound")
-	s.addcomponent(square, "red", "blue")
-
-	turtle.register_shape("square", square)
-	###
-
-mainsq(4, 10, 50, 50)
-"""
-turtle.width(5)
-
-"""
-def innersquare(w):
-	for i in range(4):
-		turtle.fd(w/sqrt(2))
-		turtle.right(90)
-
-	Ptree(iter, w)
-
-def Ptree(iter, w):
-	if iter == 0:
-		turtle.rt(225)
-		turtle.fd(w)
-
-	else:
-		turtle.rt(90)
-		turtle.fd(w)
-
-		turtle.pd()
-		turtle.left(90)
-		turtle.fd(w)
-
-		turtle.rt(-45)
-		innersquare(w)
-
-		turtle.rt(135)
-		turtle.fd(w)
-
-		turtle.rt(-135)
-		innersquare(w)
-
-
-		Ptree(iter-1, w)
-"""
-
-def fancy_square(iter, w):
+	# initial line drawn up for the first side of the first iteration
 	turtle.fd(w)
 	turtle.rt(90)
+
+	# if iter (number of iterations left) is not yet 0, draw the left square of the next iteration
 	if iter > 0:
 		turtle.rt(-135)
 		newW = w/sqrt(2)
-		fancy_square(iter-1, newW)
+		tree(iter-1, newW)
 		turtle.rt(135)
+	# move forward the length of the previous iteration's square to a new position for the right square of the next iteration
 	turtle.fd(w)
 	turtle.rt(90)
 
+	# PYTHAGORAS COLOR continued, for right squares
+	turtle.colormode(255)
+	turtle.pencolor((N*3)%255, 100, 200)
+
+	# if iter (number of iterations left) is still not 0, draw the right square of the next iteration
 	if iter > 0:
 		turtle.rt(-225)
 		newW = w/sqrt(2)
+		# draw up the first side of the right square
 		turtle.fd(newW)
 		turtle.rt(90)
-		fancy_square(iter-1, newW)
+		# draw the rest of the right square to end at the top right corner of the previous iteration's square
+		tree(iter-1, newW)
+		# pull pen up to move turtle around right square to position at intersection of left square and right square for next iteration
+		turtle.pu()
 		turtle.fd(newW)
 		turtle.rt(90)
 		turtle.fd(newW)
@@ -407,15 +191,19 @@ def fancy_square(iter, w):
 		turtle.fd(newW)
 		turtle.rt(90)
 		turtle.rt(225)
+		turtle.pd()
+	# if iter (number of iterations left) is no longer 0
+	# finish the first iteration by drawing down and to the left for the remaining two sides of the square not yet drawn
 	turtle.fd(w)
 	turtle.rt(90)
 	turtle.fd(w)
 	turtle.rt(90)
 
+# from the very beginning, rotate turtle so it is facing up in the correct direction
 turtle.rt(-90)
-fancy_square(7, 100)
 
-"""
+
+""" Pythagoras Tree pseudo-code
 def fancy_square(iterations, sidelength)
 	move sidelength
 	rotate 90
@@ -435,21 +223,71 @@ def fancy_square(iterations, sidelength)
 	rotate 90
 """
 
-"""
-turtle.rt(225)
-turtle.fd(w)
 
-turtle.rt(90)
-turtle.fd(w)
-"""
-"""
-for i in range(4):
-	turtle.left(90)
-	turtle.fd(w)
-turtle.pu()
-"""
 
-# Ptree(2, 100)
+# CALLING ALL CODE TO DRAW FRACTALS
 
-turtle.exitonclick()
+# if user wants to draw koch snowflake
+def kochOption():
+	kochUser = input("\nHow many iterations of the curve would you like to implement?: ")
+	# check if input is a whole number, number of iterations should be such a number
+	if float(kochUser)%1 == 0:
+		koch(int(kochUser))
+		print("\nClick on the image to exit!\n")
+	else:
+		print("Can't do that number of iterations! Type in a natural number.")
+		kochOption()
+
+# if user wants to draw cantor set
+def cantorOption():
+	# check if input is a whole number, preferable if length of original line is such a number
+	cantorUser = input("\nHow many iterations of the set would you like to implement?: ")
+	if float(cantorUser)%1 == 0:
+		cantor(int(cantorUser), 690, -350, 300)
+		print("\nClick on the fractal image to exit!\n")
+	else:
+		print("Can't do that number of iterations! Type in a natural number.")
+		cantorOption()
+
+# if user wants to draw pythagoras tree
+def pythagOption():
+	pythagUser = input("\nHow many iterations of the tree would you like to implement?: ")
+	# check if input is a whole number, preferable if length of original line is such a number
+	if float(pythagUser)%1 == 0:
+		tree(int(pythagUser), 100)
+		print("\nClick on the fractal image to exit!\n")
+	else:
+		print("Can't do that number of iterations! Type in a natural number.")
+		pythagOption()
+
+
+# function for user fractal menu
+def drawFractal():
+	user = input("\n\n\nWhich fractal would you like to draw?:\n" +
+		"1. Koch Snowflake\n" +
+		"2. Cantor Set\n" + 
+		"3. Pythagoras Tree\n\n")
+
+	if user == "1":
+		# calling code to draw koch snowflake
+		kochOption()
+	elif user == "2":
+		# calling code to draw cantor set
+		cantorOption()
+	elif user == "3":
+		# calling code to draw pythagoras tree
+		pythagOption()
+	else:
+		print("\nThat option is not available! Please input 1 or 2.\n")
+		drawFractal()
+
+	# turtle module quits automatically after completing drawing without turtle.exitonclick
+	# exits program after user clicks on module screen
+	turtle.exitonclick()
+
+# calling function to display user fractal menu
+drawFractal()
+
+
+
 
