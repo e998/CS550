@@ -1,5 +1,5 @@
 # Esther Sojung An
-# DUE: 11/13/2018
+# DUE: 11/14/2018
 
 """ Sources:
 - Turtle module - https://docs.python.org/3.3/library/turtle.html?highlight=turtle#turtle.radians
@@ -29,7 +29,6 @@ turtle.goto(-100, -200)
 # turtle.pd() - pull the pen down, drawing when moving
 turtle.pd()
 
-
 def innerkoch(n):
 	global x, y, z, N
 	turtle.colormode(255)
@@ -57,7 +56,6 @@ def innerkoch(n):
 		turtle.seth(x)
 		innerkoch(n-1)
 
-
 def koch(iter):
 	global l, x, y, z
 	# turtle.seth = turtle.setheading
@@ -69,59 +67,104 @@ def koch(iter):
 	turtle.seth(x)
 	innerkoch(iter)
 
-
 def main():
 	l = 50
 	koch(2)
-
 
 main()
 """
 
 
-# Cantor Set Code
 
-w = 90
-X = 0
-Y = 0
-d = 10
+""" Cantor Set Code
 
+def cantor(iter,w,x,y):
+	global d
 
-def main():
-	turtle.pd()
-	turtle.goto(X, Y)
-	turtle.fd(w)
-
-	innercantor()
-
-
-def innercantor():
-	global w, X, Y
-
-	if w <= 0.5:
-		turtle.done()
-
+	if iter == 0:
+		return
+		# turtle.done()
 	else:
-		w = w/3
+		#draw line from x,y by w
 		turtle.pu()
-		turtle.goto(X, Y-d)
-
+		turtle.goto(x,y)
 		turtle.pd()
 		turtle.fd(w)
 
-		turtle.pu()
-		turtle.goto(X+2*w, Y-d)
+		cantor(iter-1, w/3, x, y-10)
+		cantor(iter-1, w/3, x+(2*w/3), y-10)
 
-		turtle.pd()
-		turtle.fd(w)
-
-		Y = Y - d
-
-	innercantor()
+cantor(7, 700, -350,300)
+"""
 
 
-main()
 
+# Pythagoras Tree
+
+def squareR(w, x, y):
+	turtle.pu()
+	turtle.goto(x,y)
+	turtle.pd()
+	turtle.fd(-w)
+	turtle.left(90)
+	turtle.fd(-w)
+	turtle.left(90)
+	turtle.fd(-w)
+	turtle.left(90)
+	turtle.fd(-w)
+	turtle.pu()
+	
+def squareL(w, x, y):
+	turtle.pu()
+	turtle.goto(x,y)
+	turtle.pd()
+	turtle.fd(w)
+	turtle.right(90)
+	turtle.fd(w)
+	turtle.right(90)
+	turtle.fd(-w)
+	turtle.right(90)
+	turtle.fd(-w)
+	turtle.right(90)
+	turtle.fd(w)
+	turtle.pu()
+
+def main(w, x, y):
+	turtle.pd()
+	squareR(w, x, y)
+	turtle.pu()
+	turtle.goto(x-w, y)
+	squareL(w, x-w, y)
+
+def tree(iter, w, x, y):
+	if iter == 0:
+		return
+	else:
+		turtle.rt(45)
+		squareR(w, x, y)
+		
+		turtle.rt(-90)
+		squareL(w, x, y)
+
+		tree(iter-1, w/sqrt(2), x-(1/2)*w, y-(1/2)*w)
+		tree(iter-1, w/sqrt(2), x+(1/2)*w, y+(1/2)*w)
+"""
+main(50, 0, 100)
+tree(2, 50, 0, 100)
+"""
+squareL(50, 100, 100)
+
+"""
+turtle.pd()
+turtle.shape("square")
+turtle.shapesize(w,w)
+turtle.pu()
+turtle.tilt(45)
+turtle.goto(100,100)
+turtle.shape('square')
+# turtle.tilt(45)
+turtle.shapesize(w,w)
+"""
 
 turtle.exitonclick()
 
