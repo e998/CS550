@@ -141,7 +141,7 @@ def cantor(iter,l,x,y):
 		# third 1/3 segment is drawn at the two-thirds mark on the original line
 		cantor(iter-1, l/3, x, y-d)
 		cantor(iter-1, l/3, x+(2*l/3), y-d)
-s
+
 
 
 ### Pythagoras Tree Code
