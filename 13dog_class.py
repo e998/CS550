@@ -49,7 +49,7 @@ class Seal:
 	### METHODS / FUNCTIONS
 
 	def eat(self, amount):
-		status = ""
+		statusEat = ""
 		if self.hunger > 0:
 			# hunger: 0 is full, 10 is very hungry
 			self.hunger -= 1
@@ -61,7 +61,7 @@ class Seal:
 		return statusEat
 
 	def sleep(self, time):
-		status = ""
+		statusSleep = ""
 		if self.energy <= 10-time:
 			self.energy += time
 			statusSleep = self.name + " just had a wonderful nap!"
@@ -74,9 +74,14 @@ class Seal:
 
 # want to keep class as flexible as possible, don't ask for input or print things in a class
 sealname = input("What do you want to name your seal?\n")
+# seal1 is more complicated variable type
+# Seal is class, and seal1 & seal2 are objects
+# objects like the house being printed using the blueprint, which is the class
 seal1 = Seal(sealname, 5, 2)
 seal2 = Seal("Enhy", 3, 9)
 
+
+# while True is an infinite loop
 while True:
 	print(seal1.stats())
 	print(seal2.stats())

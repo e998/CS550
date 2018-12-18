@@ -32,9 +32,8 @@ num()
 """
 
 
-
 while True:
-	try:
+	try: #######
 		num = int(input("Pick a number between 1 and 5: "))
 		if 1<=num<=5:
 			break

@@ -64,7 +64,7 @@ def crazy_eights(numbers):
 	elif numbers[0] != '8':
 		return crazy_eights(numbers[1:])
 
-print(crazy_eights("980234024"))
+print(crazy_eights("98023402488888"))
 
 
 

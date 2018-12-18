@@ -13,7 +13,7 @@ yen = dollars * (111.60)
 print("Yen:", yen)
 """
 
-""" Conversion Calculator
+# Conversion Calculator
 print("Conversion Calculator " + "\n"
 	"1. Dollars to Yen" + "\n"
 	"2. Miles to Kilometers")
@@ -26,7 +26,7 @@ elif (choice == "2"):
 	mi = float(input("Miles: "))
 	km = mi * (1.60934)
 	print("Kilometers:", km)
-"""
+
 
 import random
 # return the next random floating point number in the range [0.0, 1.0)
@@ -43,11 +43,13 @@ print(str(x))
 """ print a random number in set: 50, 60, 70, ...,100 with random.randrange()
 print(random.randrange(50, 101, 10))
 """
+
+"""
 import math
 ***
 a = math.pow(math.sin(random.random(0, 2*pi), 2) + math.pow(math.cos(, 2)
 print(a)
-
+"""
 
 
 """
