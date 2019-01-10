@@ -1,5 +1,6 @@
 # 1/8/2019
 # CS550 Class/HW Winter
+# Monty Hall Problem
 
 ### IMPORTS
 import random
