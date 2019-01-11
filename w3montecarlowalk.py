@@ -37,6 +37,7 @@ Monte Carlo Simulations Research:
 random.choice & random.uniform - https://docs.python.org/2/library/random.html
 """
 
+### Imports
 import random
 from random import *
 
