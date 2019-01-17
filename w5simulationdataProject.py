@@ -60,15 +60,10 @@ for y in range(years):
 
 	bagelsDH,bagelsL = 0,0 # reset number of bagels after each year
 
-# x_axis = [x for x in range(maxBagels)]
-
-# print(displayBagels)
-# print(len(x_axis))
 plt.plot(displayBagels)
 plt.xlabel("Number of Bagels Consumed in One Year")
 plt.ylabel("Frequency of Annual Number of Consumed Bagels")
 plt.title("Ben's Yearly Bagels\n")
-# plt.bar(x_axis, displayBagels, color=(0.5, 0.0, 0.5, 1.0))
 plt.show()
 
 
